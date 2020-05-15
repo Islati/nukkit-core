@@ -1,21 +1,19 @@
-package com.levelmc.core.wizarding.spells;
+package com.levelmc.core.components.wizarding.spells;
 
 import cn.nukkit.Player;
 import cn.nukkit.block.Block;
 import cn.nukkit.block.BlockID;
 import cn.nukkit.entity.Entity;
 import cn.nukkit.level.Location;
-import cn.nukkit.level.ParticleEffect;
 import cn.nukkit.level.particle.*;
 import cn.nukkit.math.Vector3;
 import com.levelmc.core.api.chat.Chat;
 import com.levelmc.core.api.effects.EffectUtils;
-import com.levelmc.core.api.utils.BlockUtils;
 import com.levelmc.core.api.utils.EntityUtils;
 import com.levelmc.core.api.utils.LocationUtils;
 import com.levelmc.core.api.utils.NumberUtil;
 import com.levelmc.core.users.User;
-import com.levelmc.core.wizarding.Spell;
+import com.levelmc.core.components.wizarding.Spell;
 
 import java.util.List;
 import java.util.Set;
@@ -81,7 +79,7 @@ public class FireISpell extends Spell {
 
             e.setHealth(e.getHealth() - NumberUtil.getRandomInRange(2, 3));
             Chat.format(player, "&eEntity &b%s &ehas &c%s&e/&c%s&e health", e.getId(), e.getHealth(), e.getMaxHealth());
-
+            //todo implement health bar and damage indicators.
         }
     }
 }

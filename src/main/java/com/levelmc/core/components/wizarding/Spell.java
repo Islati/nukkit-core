@@ -1,6 +1,5 @@
-package com.levelmc.core.wizarding;
+package com.levelmc.core.components.wizarding;
 
-import cn.nukkit.Player;
 import com.levelmc.core.users.User;
 import lombok.Getter;
 

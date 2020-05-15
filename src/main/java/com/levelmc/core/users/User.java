@@ -4,8 +4,8 @@ import cn.nukkit.Player;
 import com.levelmc.core.Core;
 import com.levelmc.core.api.user.BaseUser;
 import com.levelmc.core.api.yml.Path;
-import com.levelmc.core.wizarding.Spell;
-import com.levelmc.core.wizarding.SpellSlot;
+import com.levelmc.core.components.wizarding.Spell;
+import com.levelmc.core.components.wizarding.SpellSlot;
 
 import java.util.HashMap;
 import java.util.Map;

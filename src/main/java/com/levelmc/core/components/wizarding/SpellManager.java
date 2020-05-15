@@ -1,7 +1,6 @@
-package com.levelmc.core.wizarding;
+package com.levelmc.core.components.wizarding;
 
 import com.levelmc.core.Core;
-import lombok.Getter;
 
 import java.util.HashMap;
 import java.util.Map;

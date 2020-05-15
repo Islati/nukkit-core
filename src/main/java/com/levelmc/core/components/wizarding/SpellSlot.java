@@ -1,4 +1,4 @@
-package com.levelmc.core.wizarding;
+package com.levelmc.core.components.wizarding;
 
 import lombok.Getter;
 
