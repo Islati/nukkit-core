@@ -28,6 +28,7 @@ public class GadgetManager {
     public void registerGadget(Gadget... gadgets) {
         for (Gadget g : gadgets) {
             gadgetIdsMap.put(g.id(), g);
+            base.getLogger().info("Registered gadget: " + g.id());
         }
     }
 

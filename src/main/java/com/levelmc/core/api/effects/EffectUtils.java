@@ -5,6 +5,8 @@ import cn.nukkit.entity.item.EntityFirework;
 import cn.nukkit.item.Item;
 import cn.nukkit.item.ItemFirework;
 import cn.nukkit.level.Level;
+import cn.nukkit.level.Location;
+import cn.nukkit.level.ParticleEffect;
 import cn.nukkit.level.format.FullChunk;
 import cn.nukkit.nbt.NBTIO;
 import cn.nukkit.nbt.tag.*;
@@ -13,6 +15,13 @@ import cn.nukkit.utils.DyeColor;
 import java.util.Random;
 
 public class EffectUtils {
+
+    public static void spawnParticles(ParticleEffect effect, Location loc, int amt) {
+        Level lvl = loc.getLevel();
+        for (int i = 0; i < amt; i++) {
+            lvl.addParticleEffect(loc, effect);
+        }
+    }
 
     public static void spawnFirework(Player p) {
         double x = p.getX();

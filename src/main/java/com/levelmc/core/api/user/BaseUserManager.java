@@ -25,19 +25,12 @@ public class BaseUserManager<T extends BaseUser> implements Listener {
 
     @EventHandler
     public void onPlayerJoin(PlayerJoinEvent e) {
-        if (e.isCancelled()) {
-            return;
-        }
-
         T user = Reflect.onClass(userClass).create(e.getPlayer()).get();
         users.put(user.getUuid(), user);
     }
 
     @EventHandler
     public void onPlayerQuit(PlayerQuitEvent e) {
-        if (e.isCancelled()) {
-            return;
-        }
 
         Player player = e.getPlayer();
 
