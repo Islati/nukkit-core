@@ -31,6 +31,10 @@ public class GadgetManager {
         }
     }
 
+    public boolean hasGadget(String id) {
+        return gadgetIdsMap.containsKey(id);
+    }
+
     public boolean isGadget(Item item) {
         if (!item.hasCompoundTag()) {
             return false;

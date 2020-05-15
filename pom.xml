@@ -5,8 +5,8 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.levelmc</groupId>
-    <artifactId>levelmc-nukkit-core</artifactId>
-    <version>1.0-SNAPSHOT</version>
+    <artifactId>core</artifactId>
+    <version>1.0</version>
 
     <repositories>
         <repository>
