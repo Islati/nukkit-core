@@ -7,11 +7,19 @@ import cn.nukkit.event.Listener;
 import cn.nukkit.event.player.PlayerInteractEvent;
 import cn.nukkit.item.Item;
 import cn.nukkit.plugin.PluginBase;
+import com.google.common.cache.Cache;
+import com.google.common.cache.CacheBuilder;
+import com.levelmc.core.api.chat.Chat;
+
+import java.util.UUID;
+import java.util.concurrent.TimeUnit;
 
 public class GadgetListener implements Listener {
 
     private PluginBase parent;
     private GadgetManager manager;
+
+    private Cache<UUID, Long> gadgetCooldown = CacheBuilder.newBuilder().expireAfterWrite(500, TimeUnit.MILLISECONDS).build();
 
     public GadgetListener(PluginBase parent, GadgetManager manager) {
         this.parent = parent;
@@ -31,6 +39,11 @@ public class GadgetListener implements Listener {
         Block block = e.getBlock();
 
         if (!manager.isGadget(item)) {
+            return;
+        }
+
+        if (gadgetCooldown.asMap().containsKey(player.getUniqueId())) {
+            Chat.actionMsg(player, "&7... S l o w   d o w n ...");
             return;
         }
 

@@ -8,6 +8,7 @@ import cn.nukkit.level.Level;
 import cn.nukkit.level.Location;
 import cn.nukkit.level.ParticleEffect;
 import cn.nukkit.level.format.FullChunk;
+import cn.nukkit.level.particle.Particle;
 import cn.nukkit.nbt.NBTIO;
 import cn.nukkit.nbt.tag.*;
 import cn.nukkit.utils.DyeColor;
@@ -15,6 +16,12 @@ import cn.nukkit.utils.DyeColor;
 import java.util.Random;
 
 public class EffectUtils {
+
+    public static void spawnParticles(Particle effect, Level lvl, int amt) {
+        for (int i = 0; i < amt; i++) {
+            lvl.addParticle(effect);
+        }
+    }
 
     public static void spawnParticles(ParticleEffect effect, Location loc, int amt) {
         Level lvl = loc.getLevel();

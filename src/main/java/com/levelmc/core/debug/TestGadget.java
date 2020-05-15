@@ -27,10 +27,7 @@ public class TestGadget extends BaseGadget {
 
     @Override
     public void onInteractEvent(PlayerInteractEvent e) {
-        Chat.msg(e.getPlayer(), "&7B e a u t i f u l");
-
         User user = Core.getInstance().getUserManager().getUser(e.getPlayer());
-
         Core.getInstance().getSpellManager().getSpell("fire-i").perform(user);
     }
 }

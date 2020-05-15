@@ -16,7 +16,7 @@ public abstract class Spell {
     private int range = 10;
 
     @Getter
-    private int radius = 1;
+    private int radius = 4;
 
     public Spell(String id, String name) {
         this.id = id;
@@ -25,6 +25,11 @@ public abstract class Spell {
 
     public Spell range(int range) {
         this.range = range;
+        return this;
+    }
+
+    public Spell radius(int radius) {
+        this.radius = radius;
         return this;
     }
 

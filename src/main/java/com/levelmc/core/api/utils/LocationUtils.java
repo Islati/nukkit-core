@@ -1,4 +1,4 @@
-package com.levelmc.core.api.world;
+package com.levelmc.core.api.utils;
 
 import cn.nukkit.Player;
 import cn.nukkit.Server;
@@ -7,6 +7,7 @@ import cn.nukkit.entity.EntityLiving;
 import cn.nukkit.level.Level;
 import cn.nukkit.level.Location;
 import cn.nukkit.math.BlockVector3;
+import com.levelmc.core.Core;
 import com.levelmc.core.api.player.PlayerUtils;
 import com.levelmc.core.api.utils.NumberUtil;
 
@@ -97,7 +98,8 @@ public class LocationUtils {
             return false;
         }
 
-        return center.distanceSquared(loc) <= (radius * radius);
+        double distance = center.distanceSquared(loc);
+        return distance <= (radius * radius);
     }
 
     public static Location getRandomLocation(Location locationCenter, double radius) {
