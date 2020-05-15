@@ -3,8 +3,10 @@ package com.levelmc.core.api.world;
 import cn.nukkit.Player;
 import cn.nukkit.Server;
 import cn.nukkit.entity.Entity;
+import cn.nukkit.entity.EntityLiving;
 import cn.nukkit.level.Level;
 import cn.nukkit.level.Location;
+import cn.nukkit.math.BlockVector3;
 import com.levelmc.core.api.player.PlayerUtils;
 import com.levelmc.core.api.utils.NumberUtil;
 
@@ -127,17 +129,17 @@ public class LocationUtils {
     }
 
     public static Location getRoundedCompassLocation(Location location, int round) {
-        int x = location.getX();
-        int z = location.getZ();
+        double x = location.getX();
+        double z = location.getZ();
         z = Math.round(z / round) * round;
         x = Math.round(x / round) * round;
-        return new Location(location.getLevel(), x, 0.0, z);
+        return new Location(x, 0.0, z, location.getLevel());
     }
 
     public static List<Location> getParticlesCircle(Location center, float radius, float distanceBetweenParticles) {
         List<Location> locs = new ArrayList<>();
         for (float i = 0F; i < 360F; ) {
-            locs.add(new Location(center.getLevel(), center.getX() + Math.cos((double) i) / radius, center.getY(), center.getZ() + Math.sin((double) i) / radius));
+            locs.add(new Location(center.getX() + Math.cos((double) i) / radius, center.getY(), center.getZ() + Math.sin((double) i) / radius, center.getLevel()));
             i = i + distanceBetweenParticles;
         }
         return locs;
@@ -146,7 +148,7 @@ public class LocationUtils {
     public static List<Location> getSpiral(Location center, Float degrees, double centerRadius, float radius, float distanceBetweenParticles) {
         List<Location> locs = new ArrayList<>();
         for (float i = 0F; i < degrees; ) {
-            locs.add(new Location(center.getLevel(), center.getX() + Math.sin((double) i) / radius, center.getY() + i / centerRadius, center.getZ() + Math.cos((double) i) / radius));
+            locs.add(new Location(center.getX() + Math.sin((double) i) / radius, center.getY() + i / centerRadius, center.getZ() + Math.cos((double) i) / radius, center.getLevel()));
             i = i + distanceBetweenParticles;
         }
         return locs;
@@ -160,28 +162,28 @@ public class LocationUtils {
      * @param radius radius of the circle
      * @return a list of locations that were in the circle.
      */
-    public static List<Location> getFullCircle(Location center, int radius) {
+    public static List<Location> getCircleFilled(Location center, int radius) {
         List<Location> locs = new ArrayList<>();
 
-        World world = center.getLevel();
+        Level world = center.getLevel();
 
 
         double circleSize = USE_TRUE_CIRCLE ? TRUE_CIRLE : FALSE_CIRCLE;
         final double radiusSquared = (radius + circleSize) * (radius * circleSize);
 
-        final Vector centerPoint = center.toVector();
-        final Vector currentPoint = centerPoint.clone();
+        final Location centerPoint = center.clone();
+        final Location currentPoint = centerPoint.clone();
 
 
         for (int x = -radius; x <= radius; x++) {
-            currentPoint.setX(centerPoint.getX() + x);
+            currentPoint.x = (centerPoint.getX() + x);
 
             for (int z = -radius; z <= radius; z++) {
-                currentPoint.setZ(centerPoint.getZ() + z);
+                currentPoint.z = (centerPoint.getZ() + z);
 
                 //If the point is within the bounds of the radius, then it's part of the circle!
                 if (centerPoint.distanceSquared(currentPoint) <= radiusSquared) {
-                    locs.add(currentPoint.toLocation(world));
+                    locs.add(currentPoint.clone());
                 }
             }
         }
@@ -200,16 +202,16 @@ public class LocationUtils {
      */
     public static List<Location> getCircle(Location centerLoc, int radius) {
         List<Location> circle = new ArrayList<>();
-        World world = centerLoc.getLevel();
+        Level world = centerLoc.getLevel();
         int x = 0;
         int z = radius;
         int error = 0;
         int d = 2 - 2 * radius;
         while (z >= 0) {
-            circle.add(new Location(world, centerLoc.getX() + x, centerLoc.getY(), centerLoc.getZ() + z));
-            circle.add(new Location(world, centerLoc.getX() - x, centerLoc.getY(), centerLoc.getZ() + z));
-            circle.add(new Location(world, centerLoc.getX() - x, centerLoc.getY(), centerLoc.getZ() - z));
-            circle.add(new Location(world, centerLoc.getX() + x, centerLoc.getY(), centerLoc.getZ() - z));
+            circle.add(new Location(centerLoc.getX() + x, centerLoc.getY(), centerLoc.getZ() + z, world));
+            circle.add(new Location(centerLoc.getX() - x, centerLoc.getY(), centerLoc.getZ() + z, world));
+            circle.add(new Location(centerLoc.getX() - x, centerLoc.getY(), centerLoc.getZ() - z, world));
+            circle.add(new Location(centerLoc.getX() + x, centerLoc.getY(), centerLoc.getZ() - z, world));
             error = 2 * (d + z) - 1;
             if ((d < 0) && (error <= 0)) {
                 x++;
@@ -238,9 +240,9 @@ public class LocationUtils {
         if (position2 == null) {
             return plain;
         }
-        for (int x = Math.min(position1.getX(), position2.getX()); x <= Math.max(position1.getX(), position2.getX()); x++) {
-            for (int z = Math.min(position1.getZ(), position2.getZ()); z <= Math.max(position1.getZ(), position2.getZ()); z++) {
-                plain.add(new Location(position1.getLevel(), x, position1.getY(), z));
+        for (double x = Math.min(position1.getX(), position2.getX()); x <= Math.max(position1.getX(), position2.getX()); x += 1) {
+            for (double z = Math.min(position1.getZ(), position2.getZ()); z <= Math.max(position1.getZ(), position2.getZ()); z += 1) {
+                plain.add(new Location(x, position1.getY(), z, position1.getLevel()));
             }
         }
         return plain;
@@ -257,20 +259,20 @@ public class LocationUtils {
      */
     public static List<Location> getLine(Location position1, Location position2) {
         List<Location> line = new ArrayList<>();
-        int dx = Math.max(position1.getX(), position2.getX()) - Math.min(position1.getX(), position2.getX());
-        int dy = Math.max(position1.getY(), position2.getY()) - Math.min(position1.getY(), position2.getY());
-        int dz = Math.max(position1.getZ(), position2.getZ()) - Math.min(position1.getZ(), position2.getZ());
-        int x1 = position1.getX();
-        int x2 = position2.getX();
-        int y1 = position1.getY();
-        int y2 = position2.getY();
-        int z1 = position1.getZ();
-        int z2 = position2.getZ();
-        int x = 0;
-        int y = 0;
-        int z = 0;
-        int i = 0;
-        int d = 1;
+        double dx = Math.max(position1.getX(), position2.getX()) - Math.min(position1.getX(), position2.getX());
+        double dy = Math.max(position1.getY(), position2.getY()) - Math.min(position1.getY(), position2.getY());
+        double dz = Math.max(position1.getZ(), position2.getZ()) - Math.min(position1.getZ(), position2.getZ());
+        double x1 = position1.getX();
+        double x2 = position2.getX();
+        double y1 = position1.getY();
+        double y2 = position2.getY();
+        double z1 = position1.getZ();
+        double z2 = position2.getZ();
+        double x = 0;
+        double y = 0;
+        double z = 0;
+        double i = 0;
+        double d = 1;
         switch (getHighest(dx, dy, dz)) {
             case 1:
                 i = 0;
@@ -283,7 +285,7 @@ public class LocationUtils {
                     i++;
                     y = y1 + (x - x1) * (y2 - y1) / (x2 - x1);
                     z = z1 + (x - x1) * (z2 - z1) / (x2 - x1);
-                    line.add(new Location(position1.getLevel(), x, y, z));
+                    line.add(new Location(x, y, z, position1.getLevel()));
                     x += d;
                 } while (i <= Math.max(x1, x2) - Math.min(x1, x2));
                 break;
@@ -298,7 +300,7 @@ public class LocationUtils {
                     i++;
                     x = x1 + (y - y1) * (x2 - x1) / (y2 - y1);
                     z = z1 + (y - y1) * (z2 - z1) / (y2 - y1);
-                    line.add(new Location(position1.getLevel(), x, y, z));
+                    line.add(new Location(x, y, z, position1.getLevel()));
                     y += d;
                 } while (i <= Math.max(y1, y2) - Math.min(y1, y2));
                 break;
@@ -313,14 +315,14 @@ public class LocationUtils {
                     i++;
                     y = y1 + (z - z1) * (y2 - y1) / (z2 - z1);
                     x = x1 + (z - z1) * (x2 - x1) / (z2 - z1);
-                    line.add(new Location(position1.getLevel(), x, y, z));
+                    line.add(new Location(x, y, z, position1.getLevel()));
                     z += d;
                 } while (i <= Math.max(z1, z2) - Math.min(z1, z2));
         }
         return line;
     }
 
-    private static int getHighest(int x, int y, int z) {
+    private static int getHighest(double x, double y, double z) {
         if ((x >= y) && (x >= z)) {
             return 1;
         }
@@ -329,8 +331,9 @@ public class LocationUtils {
         }
         return 3;
     }
-
-    public static boolean isBehind(LivingEntity entityToCheck, LivingEntity entityBehind) {
-        return Math.abs(Math.toDegrees(entityToCheck.getEyeLocation().getDirection().angle(entityBehind.getLocation().getDirection()))) < 45;
-    }
+//
+//    public static boolean isBehind(EntityLiving entityToCheck, EntityLiving entityBehind) {
+//
+//        return Math.abs(Math.toDegrees(entityToCheck.getLocation().add(0,entityToCheck.getEyeHeight(),0).getDirectionVector().angle(entityBehind.getLocation().getDirection()))) < 45;
+//    }
 }
