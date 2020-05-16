@@ -1,8 +1,8 @@
-package com.levelmc.core.components.items.name;
+package com.levelmc.core.components.loot;
 
+import com.levelmc.core.api.utils.ListUtils;
 import com.levelmc.core.api.yml.Path;
 import com.levelmc.core.api.yml.YamlConfig;
-import com.levelmc.core.components.items.ItemRarity;
 import lombok.Getter;
 
 import java.util.ArrayList;
@@ -23,7 +23,26 @@ public class NameTable extends YamlConfig {
         return this;
     }
 
-    public NameTable add(String value, ItemRarity rarity) {
+    public NameTable add(String value, Rarity rarity) {
         return add(value, rarity.getChance(), rarity.getMeasure());
+    }
+
+    public NameData selectViaChance() {
+        if (names.isEmpty()) {
+            return null;
+        }
+
+        if (names.size() == 1) {
+            return names.get(0);
+        }
+
+        NameData data = ListUtils.getRandom(names);
+
+        while (!data.chanceCheck()) {
+            data = ListUtils.getRandom(names);
+        }
+
+        return data;
+
     }
 }

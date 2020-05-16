@@ -4,15 +4,17 @@ import cn.nukkit.plugin.PluginBase;
 import com.levelmc.core.api.cmd.CommandHandler;
 import com.levelmc.core.api.cmd.commands.DebuggerCommand;
 import com.levelmc.core.api.debug.Debugger;
+import com.levelmc.core.api.forms.FormListener;
 import com.levelmc.core.api.gadgets.GadgetManager;
 import com.levelmc.core.api.utils.PluginUtils;
 import com.levelmc.core.api.yml.InvalidConfigurationException;
 import com.levelmc.core.commands.TestCommand;
+import com.levelmc.core.components.loot.LootGenerator;
+import com.levelmc.core.components.wizarding.WizardingComponent;
 import com.levelmc.core.config.CoreConfig;
 import com.levelmc.core.debug.DebugTestGadget;
 import com.levelmc.core.debug.TestGadget;
 import com.levelmc.core.users.UserManager;
-import com.levelmc.core.components.wizarding.SpellManager;
 import lombok.Getter;
 
 import java.io.File;
@@ -25,6 +27,7 @@ public class Core extends PluginBase {
         return instance;
     }
 
+    @Getter
     private CommandHandler commandHandler;
 
     @Getter
@@ -34,7 +37,10 @@ public class Core extends PluginBase {
     private UserManager userManager;
 
     @Getter
-    private SpellManager spellManager;
+    private WizardingComponent wizardingComponent = null;
+
+    @Getter
+    private LootGenerator lootGenerator = null;
 
     private CoreConfig config;
 
@@ -69,15 +75,19 @@ public class Core extends PluginBase {
         userManager = new UserManager();
         getLogger().info("Created UserManager");
 
-        spellManager = new SpellManager(this);
-        spellManager.registerSpells(
-                new FireISpell()
-        );
+        wizardingComponent = new WizardingComponent(this);
+        wizardingComponent.init();
+        getLogger().info("Wizarding component initialized");
+
+        lootGenerator = new LootGenerator(this);
+        lootGenerator.init();
+        getLogger().info("LootGenerator initialized");
 
         /* Register the listeners */
         PluginUtils.registerListeners(this,
                 gadgetManager.getGadgetListener(),
-                userManager
+                userManager,
+                new FormListener(this)
         );
 
         getLogger().info("Listeners Registered: GadgetListener, UserManager (Listener)");

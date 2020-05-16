@@ -1,4 +1,4 @@
-package com.levelmc.core.components.items.name;
+package com.levelmc.core.components.loot;
 
 import com.levelmc.core.api.Chanceable;
 import com.levelmc.core.api.yml.Path;

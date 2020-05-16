@@ -28,6 +28,6 @@ public class TestGadget extends BaseGadget {
     @Override
     public void onInteractEvent(PlayerInteractEvent e) {
         User user = Core.getInstance().getUserManager().getUser(e.getPlayer());
-        Core.getInstance().getSpellManager().getSpell("fire-i").perform(user);
+        Core.getInstance().getWizardingComponent().getSpellManager().getSpell("fire-i").perform(user);
     }
 }

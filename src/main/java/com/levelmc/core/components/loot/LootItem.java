@@ -1,6 +1,5 @@
-package com.levelmc.core.components.items;
+package com.levelmc.core.components.loot;
 
-import cn.nukkit.item.Item;
 import com.levelmc.core.api.Chanceable;
 import com.levelmc.core.api.yml.Path;
 import com.levelmc.core.api.yml.YamlConfig;
@@ -15,13 +14,13 @@ public class LootItem extends YamlConfig implements Chanceable {
     @Path("rarity")
     private String itemRarity = "common";
 
-    public LootItem(int itemId, ItemRarity rarity) {
+    public LootItem(int itemId, Rarity rarity) {
         this.itemId = itemId;
         this.itemRarity = rarity.name().toLowerCase();
     }
 
-    public ItemRarity getRarity() {
-        return ItemRarity.valueOf(itemRarity.toUpperCase());
+    public Rarity getRarity() {
+        return Rarity.valueOf(itemRarity.toUpperCase());
     }
 
     @Override

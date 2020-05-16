@@ -1,8 +1,7 @@
-package com.levelmc.core.components.items.name;
+package com.levelmc.core.components.loot;
 
 import com.levelmc.core.api.yml.Path;
 import com.levelmc.core.api.yml.YamlConfig;
-import com.levelmc.core.components.items.ItemRarity;
 import lombok.Getter;
 
 public class NameSettings extends YamlConfig {
@@ -44,13 +43,20 @@ public class NameSettings extends YamlConfig {
         return this;
     }
 
-    public NameSettings add(NameSlot slot, String name, ItemRarity rarity) {
+    public NameSettings add(NameSlot slot, String name, Rarity rarity) {
         return add(slot, name, rarity.getChance(), rarity.getMeasure());
     }
 
     public String generateName() {
-        //todo return generated name.
+        return generateName("%s %s %s");
+    }
 
-        return "";
+    public String generateName(String format) {
+        NameData prefixData = prefixTable.selectViaChance();
+        NameData baseData = baseTable.selectViaChance();
+        NameData suffixData = suffixTable.selectViaChance();
+
+        //todo return generated name.
+        return String.format(format, prefixData.getValue(), baseData.getValue(), suffixData.getValue());
     }
 }

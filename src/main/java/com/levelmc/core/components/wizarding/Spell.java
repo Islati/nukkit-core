@@ -17,9 +17,13 @@ public abstract class Spell {
     @Getter
     private int radius = 4;
 
-    public Spell(String id, String name) {
+    @Getter
+    private MagicType magicType;
+
+    public Spell(String id, String name, MagicType type) {
         this.id = id;
         this.name = name;
+        this.magicType = type;
     }
 
     public Spell range(int range) {

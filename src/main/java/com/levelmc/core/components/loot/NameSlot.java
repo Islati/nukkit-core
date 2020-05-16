@@ -1,4 +1,4 @@
-package com.levelmc.core.components.items.name;
+package com.levelmc.core.components.loot;
 
 public enum NameSlot {
     PREFIX,

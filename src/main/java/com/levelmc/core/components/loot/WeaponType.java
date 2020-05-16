@@ -1,4 +1,4 @@
-package com.levelmc.core.components.items;
+package com.levelmc.core.components.loot;
 
 public enum WeaponType {
     WAND,
