@@ -4,6 +4,7 @@ import cn.nukkit.Player;
 import cn.nukkit.block.Block;
 import cn.nukkit.event.EventHandler;
 import cn.nukkit.event.Listener;
+import cn.nukkit.event.player.PlayerDropItemEvent;
 import cn.nukkit.event.player.PlayerInteractEvent;
 import cn.nukkit.item.Item;
 import cn.nukkit.plugin.PluginBase;
@@ -49,7 +50,22 @@ public class GadgetListener implements Listener {
 
         Gadget gadget = manager.getGadget(item);
         gadget.onInteractEvent(e);
+    }
 
-        parent.getLogger().info("Interaction Handled for Gadget ID " + gadget.id() + " from " + parent.getName());
+    @EventHandler
+    public void onPlayerDropItemEvent(PlayerDropItemEvent e) {
+        Item item = e.getItem();
+        Player player = e.getPlayer();
+
+        if (!item.hasCompoundTag()) {
+            return;
+        }
+
+        if (!manager.isGadget(item)) {
+            return;
+        }
+
+        Gadget gadget = manager.getGadget(item);
+        gadget.onPlayerDropItemEvent(e);
     }
 }

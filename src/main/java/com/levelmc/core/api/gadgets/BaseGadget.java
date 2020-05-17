@@ -1,13 +1,21 @@
 package com.levelmc.core.api.gadgets;
 
 import cn.nukkit.event.entity.EntityDamageByEntityEvent;
+import cn.nukkit.event.player.PlayerDropItemEvent;
 import cn.nukkit.event.player.PlayerInteractEvent;
 import cn.nukkit.item.Item;
 import cn.nukkit.nbt.tag.CompoundTag;
+import lombok.Setter;
 
 public class BaseGadget implements Gadget {
     private String id;
+
+    @Setter
     private Item item;
+
+    public BaseGadget(String id) {
+        this.id = id;
+    }
 
     public BaseGadget(String id, Item item) {
         this.id = id;
@@ -38,7 +46,12 @@ public class BaseGadget implements Gadget {
     }
 
     @Override
-    public void onEntityDamageByEntity(EntityDamageByEntityEvent e) {
+    public void onEntityDamageByEntityEvent(EntityDamageByEntityEvent e) {
+
+    }
+
+    @Override
+    public void onPlayerDropItemEvent(PlayerDropItemEvent e) {
 
     }
 }

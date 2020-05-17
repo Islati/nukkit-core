@@ -24,4 +24,12 @@ public class Chat {
         player.sendActionBar(TextFormat.colorize(msg), fadeIn, duration, fadeOut);
     }
 
+    public static void title(Player player, String title, String subtitle) {
+        player.sendTitle(TextFormat.colorize(title), TextFormat.colorize(subtitle));
+    }
+
+    public static void title(Player player, String title, String subtitle, int fadeIn, int stay, int fadeOut) {
+        player.sendTitle(TextFormat.colorize(title), TextFormat.colorize(subtitle), fadeIn, stay, fadeOut);
+    }
+
 }

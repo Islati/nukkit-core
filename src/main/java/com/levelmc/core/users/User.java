@@ -23,6 +23,21 @@ public class User extends BaseUser {
         super(player);
     }
 
+    public void bindSpell(SpellSlot slot, Spell spell) {
+        spellSlots.put(slot.getSlotName(), spell.getId());
+        //todo implement custom event
+    }
+
+    public void unlockSpell(Spell spell) {
+        this.spellLevels.put(spell.getId(), 1);
+        //todo implement events
+    }
+
+    public void levelSpell(Spell spell) {
+        this.spellLevels.put(spell.getId(), getSpellLevel(spell) + 1);
+        //todo implement custom event.
+    }
+
     public boolean hasSpellInSlot(SpellSlot slot) {
         return spellSlots.containsKey(slot.getSlotName());
     }
@@ -70,4 +85,5 @@ public class User extends BaseUser {
     public boolean hasSpellInType(MagicType type) {
         return getSpellsByType(type).size() > 0;
     }
+
 }

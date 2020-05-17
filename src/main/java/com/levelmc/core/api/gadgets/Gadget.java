@@ -2,6 +2,7 @@ package com.levelmc.core.api.gadgets;
 
 import cn.nukkit.Player;
 import cn.nukkit.event.entity.EntityDamageByEntityEvent;
+import cn.nukkit.event.player.PlayerDropItemEvent;
 import cn.nukkit.event.player.PlayerInteractEvent;
 import cn.nukkit.item.Item;
 
@@ -19,6 +20,8 @@ public interface Gadget {
 
     void onInteractEvent(PlayerInteractEvent e);
 
-    void onEntityDamageByEntity(EntityDamageByEntityEvent e);
+    void onEntityDamageByEntityEvent(EntityDamageByEntityEvent e);
+
+    void onPlayerDropItemEvent(PlayerDropItemEvent e);
 
 }

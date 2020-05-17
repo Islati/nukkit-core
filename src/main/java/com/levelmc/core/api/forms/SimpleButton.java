@@ -3,6 +3,7 @@ package com.levelmc.core.api.forms;
 import cn.nukkit.Player;
 import cn.nukkit.form.element.ElementButton;
 import cn.nukkit.form.element.ElementButtonImageData;
+import com.levelmc.core.Core;
 
 public class SimpleButton extends ElementButton {
 
@@ -21,6 +22,7 @@ public class SimpleButton extends ElementButton {
     }
 
     public void handleClick(Player player) {
+        Core.getInstance().getLogger().info("Handling click for " + player.getName());
         if (clickHandler==null) {
             return;
         }

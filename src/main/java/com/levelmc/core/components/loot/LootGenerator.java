@@ -1,9 +1,11 @@
 package com.levelmc.core.components.loot;
 
 import cn.nukkit.item.Item;
+import cn.nukkit.item.ItemID;
 import com.levelmc.core.Core;
 import com.levelmc.core.api.item.ItemBuilder;
 import com.levelmc.core.components.loot.commands.ItemGenCommand;
+import com.levelmc.core.components.wizarding.gadgets.MagicWand;
 
 /**
  * Manages the creation and in
@@ -18,7 +20,7 @@ public class LootGenerator {
 
     public void init() {
         core.getCommandHandler().registerCommands(
-            new ItemGenCommand(this)
+                new ItemGenCommand(this)
         );
     }
 
@@ -27,11 +29,16 @@ public class LootGenerator {
 
         String generatedName = table.getNameSettings().generateName();
 
-        Item item = ItemBuilder.of(selectedLoot.getItemId()).name(selectedLoot.getRarity().attachPrefix(generatedName)).item();
+        MagicWand wand = new MagicWand();
+        wand.setItem(
+                ItemBuilder.of(selectedLoot.getItemId()).name(selectedLoot.getRarity().attachPrefix(generatedName)).item()
+        );
 
-        settings.applySettings(item);
+        Item wandItem = wand.getItem();
+        
+        settings.applySettings(wandItem);
 
-        return item;
+        return wandItem;
     }
 
 }

@@ -12,6 +12,7 @@ import com.levelmc.core.api.effects.EffectUtils;
 import com.levelmc.core.api.utils.EntityUtils;
 import com.levelmc.core.api.utils.LocationUtils;
 import com.levelmc.core.api.utils.NumberUtil;
+import com.levelmc.core.components.wizarding.MagicType;
 import com.levelmc.core.users.User;
 import com.levelmc.core.components.wizarding.Spell;
 
@@ -20,7 +21,7 @@ import java.util.Set;
 
 public class FireISpell extends Spell {
     public FireISpell() {
-        super("fire-i", "&cFire &bI");
+        super("fire-i", "&cFire &bI", MagicType.FIRE);
 
         radius(2);
     }

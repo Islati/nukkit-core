@@ -4,9 +4,9 @@ import lombok.Getter;
 
 public enum SpellSlot {
     RIGHT_CLICK("right_click"),
-    SHIFT_RIGHT_CLICK("shift_right_click"),
+    CROUCH_RIGHT_CLICK("crouch_right_click"),
     LEFT_CLICK("left_click"),
-    SHIFT_LEFT_CLICK("shift_left_click");
+    CROUCH_LEFT_CLICK("crouch_left_click");
 
     @Getter
     private String slotName;

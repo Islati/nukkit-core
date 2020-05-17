@@ -17,7 +17,7 @@ public class ItemGenCommand {
         this.parent = parent;
     }
 
-    @Command(identifier = "ig",permissions = "levelmc.admin")
+    @Command(identifier = "ig wand",permissions = "levelmc.admin")
     public void onItemGenCommand(Player player) {
         Item wand = parent.createWand(LootTables.getInstance().getDefaultLootTable(),new WandGenerationSettings("basicWand"));
         player.getInventory().addItem(wand);

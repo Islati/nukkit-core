@@ -2,22 +2,25 @@ package com.levelmc.core.components.wizarding.guis;
 
 import cn.nukkit.Player;
 import cn.nukkit.event.player.PlayerFormRespondedEvent;
+import cn.nukkit.scheduler.NukkitRunnable;
+import cn.nukkit.utils.TextFormat;
 import com.levelmc.core.Core;
 import com.levelmc.core.api.forms.SimpleButton;
 import com.levelmc.core.api.forms.SimpleMenu;
 import com.levelmc.core.components.wizarding.MagicType;
+import com.levelmc.core.components.wizarding.SpellSlot;
+import com.levelmc.core.users.User;
 
 public class MagicCategoryGUI extends SimpleMenu {
 
-    public MagicCategoryGUI() {
+    public MagicCategoryGUI(User user, SpellSlot slot) {
         super("Select Magic Type", "Choose wisely, young wizard.");
 
-        for(MagicType type : MagicType.values()) {
-            add(new SimpleButton(type.getDisplayName()).onClick(new SimpleButton.Action() {
+        for (MagicType type : MagicType.values()) {
+            add(new SimpleButton(TextFormat.colorize(type.getDisplayName())).onClick(new SimpleButton.Action() {
                 @Override
                 public void onClick(Player player) {
-                    player.showFormWindow(new SpellSelectionGUI(type, Core.getInstance().getUserManager().getUser(player)));
-                    return;
+                    player.showFormWindow(new SpellSelectionGUI(type, user, slot));
                 }
             }));
         }
@@ -25,15 +28,6 @@ public class MagicCategoryGUI extends SimpleMenu {
 
     @Override
     public void onResponse(PlayerFormRespondedEvent event) {
-        int buttonId = getResponse().getClickedButtonId();
-
-        switch (buttonId) {
-            case 0:
-                break;
-            case 1:
-                break;
-            default:
-                break;
-        }
+        super.onResponse(event);
     }
 }

@@ -1,7 +1,8 @@
 package com.levelmc.core.components.wizarding;
 
 import com.levelmc.core.Core;
-import com.levelmc.core.components.wizarding.commands.SpellsCommand;
+import com.levelmc.core.components.wizarding.commands.SpellCommand;
+import com.levelmc.core.components.wizarding.gadgets.MagicWand;
 import com.levelmc.core.components.wizarding.spells.FireISpell;
 import lombok.Getter;
 
@@ -23,7 +24,11 @@ public class WizardingComponent {
         spellManager.registerSpells(new FireISpell());
 
         parent.getCommandHandler().registerCommands(
-                new SpellsCommand()
+                new SpellCommand()
+        );
+
+        parent.getGadgetManager().registerGadget(
+                new MagicWand()
         );
     }
 }
