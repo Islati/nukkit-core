@@ -9,6 +9,7 @@ import com.levelmc.core.api.gadgets.GadgetManager;
 import com.levelmc.core.api.utils.PluginUtils;
 import com.levelmc.core.api.yml.InvalidConfigurationException;
 import com.levelmc.core.commands.TestCommand;
+import com.levelmc.core.components.damageindicators.DamageIndicatorsComponent;
 import com.levelmc.core.components.loot.LootGenerator;
 import com.levelmc.core.components.wizarding.WizardingComponent;
 import com.levelmc.core.config.CoreConfig;
@@ -41,6 +42,9 @@ public class Core extends PluginBase {
 
     @Getter
     private LootGenerator lootGenerator = null;
+
+    @Getter
+    private DamageIndicatorsComponent damageIndicatorsComponent = null;
 
     private CoreConfig config;
 
@@ -82,6 +86,10 @@ public class Core extends PluginBase {
         lootGenerator = new LootGenerator(this);
         lootGenerator.init();
         getLogger().info("LootGenerator initialized");
+
+        damageIndicatorsComponent = new DamageIndicatorsComponent(this);
+        damageIndicatorsComponent.init();
+        getLogger().info("Damage indicators component initialized");
 
         /* Register the listeners */
         PluginUtils.registerListeners(this,

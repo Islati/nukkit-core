@@ -53,6 +53,7 @@ public class MagicWand extends BaseGadget {
         }
 
         spell.perform(user);
+        //todo implement mana.
     }
 
     @Override
