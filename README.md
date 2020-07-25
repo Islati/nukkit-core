@@ -1,4 +1,4 @@
-Nukkit Example
+About
 ====
 
 Created while learning the ins and outs of Nukkits API, features 3 components which add new gameplay dynamics and an API to easily create new features.
